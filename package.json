@@ -1,12 +1,14 @@
 {
   "name": "diff-generator-dk",
-  "version": "1.0.5",
+  "version": "1.0.11",
   "description": "command line config file generator",
   "main": "index.js",
   "scripts": {
     "test": "jest",
     "babel-node": "babel-node",
     "eslint": "eslint",
+    "flow": "flow",
+    "flow-typed": "flow-typed",
     "build": "NODE_ENV=production babel src --out-dir dist --source-maps inline",
     "prepublishOnly": "npm run build"
   },
@@ -19,17 +21,22 @@
     "diff",
     "js"
   ],
+  "jest": {
+    "testEnvironment": "node"
+  },
   "dependencies": {
     "commander": "*",
     "lodash": "*"
   },
   "devDependencies": {
     "jest": "*",
+    "jest-cli": "*",
     "babel-cli": "*",
     "babel-core": "*",
     "babel-eslint": "^8.2.2",
     "babel-preset-env": "*",
     "babel-preset-flow": "*",
+    "babel-plugin-transform-runtime": "*",
     "babel-preset-stage-0": "*",
     "eslint": "*",
     "eslint-config-airbnb-base": "*",
@@ -38,10 +45,11 @@
     "flow-typed": "^2.4.0"
   },
   "files": [
-    "dist"
+    "dist",
+    "src"
   ],
   "bin": {
-    "gendiff": "src/bin/gendiff.js"
+    "gendiff": "dist/src/bin/gendiff.js"
   },
   "author": "Demid Kashirin",
   "license": "ISC",

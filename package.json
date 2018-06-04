@@ -19,6 +19,9 @@
     "diff",
     "js"
   ],
+  "dependencies": {
+    "commander": "*"
+  },
   "devDependencies": {
     "babel-cli": "*",
     "babel-core": "*",
@@ -28,6 +31,9 @@
     "eslint": "*",
     "eslint-config-airbnb-base": "*",
     "eslint-plugin-import": "*"
+  },
+  "bin": {
+    "gendiff": "src/bin/gendiff.js"
   },
   "author": "Demid Kashirin",
   "license": "ISC",

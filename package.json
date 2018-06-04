@@ -1,6 +1,6 @@
 {
   "name": "diff-generator-dk",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "command line config file generator",
   "main": "index.js",
   "scripts": {
@@ -22,7 +22,8 @@
     "js"
   ],
   "dependencies": {
-    "commander": "*"
+    "commander": "*",
+    "lodash": "*"
   },
   "devDependencies": {
     "babel-cli": "*",

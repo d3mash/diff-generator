@@ -1,8 +1,10 @@
 import { has } from 'lodash';
+import fs from 'fs';
 
 export default (file1, file2) => {
-  const configOne = JSON.parse(file1);
-  const configTwo = JSON.parse(file2);
+  const parse = path => JSON.parse(fs.readFileSync(path, 'utf8'));
+  const configOne = parse(file1);
+  const configTwo = parse(file2);
   const mapping = {
     add: (prop, old, updated) => [[`+ ${prop}`], updated[prop]],
     del: (prop, old) => [[`- ${prop}`], old[prop]],

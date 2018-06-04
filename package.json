@@ -1,6 +1,6 @@
 {
   "name": "diff-generator-dk",
-  "version": "1.0.11",
+  "version": "1.0.17",
   "description": "command line config file generator",
   "main": "index.js",
   "scripts": {
@@ -26,7 +26,8 @@
   },
   "dependencies": {
     "commander": "*",
-    "lodash": "*"
+    "lodash": "*",
+    "fs": "*"
   },
   "devDependencies": {
     "jest": "*",
@@ -45,11 +46,10 @@
     "flow-typed": "^2.4.0"
   },
   "files": [
-    "dist",
-    "src"
+    "dist"
   ],
   "bin": {
-    "gendiff": "dist/src/bin/gendiff.js"
+    "gendiff": "dist/bin/gendiff.js"
   },
   "author": "Demid Kashirin",
   "license": "ISC",

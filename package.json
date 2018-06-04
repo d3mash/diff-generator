@@ -37,8 +37,8 @@
     "flow-typed": "^2.4.0"
   },
   "files": [
-    "dist",
-  ],
+     "dist"
+   ],
   "bin": {
     "gendiff": "src/bin/gendiff.js"
   },

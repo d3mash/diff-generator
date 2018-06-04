@@ -8,7 +8,9 @@
     "babel-node": "babel-node",
     "build": "NODE_ENV=production babel src --out-dir dist --source-maps inline",
     "prepublishOnly": "npm run build",
-    "eslint": "eslint"
+    "eslint": "eslint",
+    "flow": "flow",
+    "flow-typed": "flow-typed"
   },
   "repository": {
     "type": "git",
@@ -27,6 +29,7 @@
     "babel-core": "*",
     "babel-eslint": "^8.2.2",
     "babel-preset-env": "*",
+    "babel-preset-flow": "*",
     "babel-preset-stage-0": "*",
     "eslint": "*",
     "eslint-config-airbnb-base": "*",

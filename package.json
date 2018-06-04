@@ -30,7 +30,9 @@
     "babel-preset-stage-0": "*",
     "eslint": "*",
     "eslint-config-airbnb-base": "*",
-    "eslint-plugin-import": "*"
+    "eslint-plugin-import": "*",
+    "flow-bin": "^0.57",
+    "flow-typed": "^2.4.0"
   },
   "bin": {
     "gendiff": "src/bin/gendiff.js"

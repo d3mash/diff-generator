@@ -16,7 +16,7 @@ export default (file1, file2) => {
     },
     {
       check: (old, updated, prop) => old[prop] !== updated[prop], // modified
-      setValue: (old, updated, prop) => [`- ${prop}`, `${old[prop]}`, `+ ${prop}`, `${updated[prop]}`],
+      setValue: (old, updated, prop) => [`- ${prop}`, old[prop], `+ ${prop}`, updated[prop]],
     },
     {
       check: (old, updated, prop) => old[prop] === updated[prop], // unchanged

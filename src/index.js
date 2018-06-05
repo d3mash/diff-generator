@@ -5,9 +5,9 @@ import path from 'path';
 
 const getParser = (format) => {
   const parsers = {
-    json: JSON.parse,
-    yaml: safeLoad,
-    yml: safeLoad,
+    '.json': JSON.parse,
+    '.yaml': safeLoad,
+    '.yml': safeLoad,
   };
   return (data) => {
     const parse = parsers[format];
@@ -36,7 +36,7 @@ const mapping = [
 const getContent = pathToFile => fs.readFileSync(pathToFile, 'utf-8');
 
 export default (file1, file2) => {
-  const format = path.extname(file1).slice(1);
+  const format = path.extname(file1);
   const parse = getParser(format);
   const configOne = parse(getContent(file1));
   const configTwo = parse(getContent(file2));

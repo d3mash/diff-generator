@@ -7,19 +7,19 @@ export default (file1, file2) => {
   const configTwo = parse(file2);
   const mapping = [
     {
-      check: (old, updated, prop) => !_.has(old, prop),
+      check: (old, updated, prop) => !_.has(old, prop), // added
       setValue: (old, updated, prop) => [`+ ${prop}`, updated[prop]],
     },
     {
-      check: (old, updated, prop) => !_.has(updated, prop),
+      check: (old, updated, prop) => !_.has(updated, prop), // deleted
       setValue: (old, updated, prop) => [`- ${prop}`, old[prop]],
     },
     {
-      check: (old, updated, prop) => old[prop] !== updated[prop],
+      check: (old, updated, prop) => old[prop] !== updated[prop], // modified
       setValue: (old, updated, prop) => [`- ${prop}`, `${old[prop]}`, `+ ${prop}`, `${updated[prop]}`],
     },
     {
-      check: (old, updated, prop) => old[prop] === updated[prop],
+      check: (old, updated, prop) => old[prop] === updated[prop], // unchanged
       setValue: (old, updated, prop) => [`${prop}`, old[prop]],
     },
   ];

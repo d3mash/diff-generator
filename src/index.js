@@ -41,9 +41,10 @@ export default (file1, file2) => {
   const configOne = parse(getContent(file1));
   const configTwo = parse(getContent(file2));
   const allKeys = _.union(Object.keys(configOne), Object.keys(configTwo));
-  const results = allKeys.map((key) => {
+  const resultMapper = (key) => {
     const { setValue } = _.find(mapping, ({ check }) => check(configOne, configTwo, key));
     return setValue(configOne, configTwo, key);
-  });
+  };
+  const results = allKeys.map(resultMapper);
   return `{\n${_.flatten(results).join('\n')}\n}\n`;
 };

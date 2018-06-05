@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import program from 'commander';
-import plain from '../lib/plain';
+import plain from '../plain';
 
 program
   .version('0.1.0')

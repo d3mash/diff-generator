@@ -12,3 +12,8 @@ test('plain YAML', () => {
   const resultYAML = genDiff('./__tests__/__fixtures__/yaml/config1.yml', './__tests__/__fixtures__/yaml/config2.yml');
   expect(resultYAML).toEqual(expectedYAML);
 });
+test('plain INI', () => {
+  const expectedINI = fs.readFileSync('./__tests__/__fixtures__/expected', 'utf8');
+  const resultINI = genDiff('./__tests__/__fixtures__/ini/config1.ini', './__tests__/__fixtures__/ini/config2.ini');
+  expect(resultINI).toEqual(expectedINI);
+});

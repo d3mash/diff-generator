@@ -1,19 +1,8 @@
-import { safeLoad } from 'js-yaml';
 import _ from 'lodash';
 import fs from 'fs';
 import path from 'path';
+import getParser from './parsers';
 
-const getParser = (format) => {
-  const parsers = {
-    '.json': JSON.parse,
-    '.yaml': safeLoad,
-    '.yml': safeLoad,
-  };
-  return (data) => {
-    const parse = parsers[format];
-    return parse(data);
-  };
-};
 const mapping = [
   {
     check: (old, updated, prop) => !_.has(old, prop), // added

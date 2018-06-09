@@ -21,7 +21,7 @@ test('nested', () => {
   const resultJSON = genDiff('./__tests__/__fixtures__/json/nested-old.json', './__tests__/__fixtures__/json/nested-new.json');
   expect(resultJSON).toEqual(expectedJSON);
 
-  const expectedYAML = fs.readFileSync('./__tests__/__fixtures__/expected', 'utf8');
+  const expectedYAML = fs.readFileSync('./__tests__/__fixtures__/expected-nested', 'utf8');
   const resultYAML = genDiff('./__tests__/__fixtures__/yaml/nested-old.yml', './__tests__/__fixtures__/yaml/nested-new.yml');
   expect(resultYAML).toEqual(expectedYAML);
 });

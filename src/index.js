@@ -2,38 +2,57 @@ import _ from 'lodash';
 import fs from 'fs';
 import path from 'path';
 import getParser from './parsers';
+import render from './render';
 
-const mapping = [
+const actions = [
   {
-    check: (old, updated, prop) => !_.has(old, prop), // added
-    setValue: (old, updated, prop) => `+ ${prop}: ${updated[prop]}`,
+    type: 'nested',
+    check: (old, updated, key) => !(old[key] instanceof Array && updated[key] instanceof Array) &&
+    (old[key] instanceof Object && updated[key] instanceof Object),
+    setValue: (old, updated, key, f) => ({ children: (f(old[key], updated[key])) }),
   },
   {
-    check: (old, updated, prop) => !_.has(updated, prop), // deleted
-    setValue: (old, updated, prop) => `- ${prop}: ${old[prop]}`,
+    type: 'added',
+    check: (old, updated, key) => !_.has(old, key),
+    setValue: (old, updated, key) => ({ value: updated[key] }),
   },
   {
-    check: (old, updated, prop) => old[prop] !== updated[prop], // modified
-    setValue: (old, updated, prop) => [`- ${prop}: ${old[prop]}`, `+ ${prop}: ${updated[prop]}`],
+    type: 'deleted',
+    check: (old, updated, key) => !_.has(updated, key),
+    setValue: (old, updated, key) => ({ value: old[key] }),
   },
   {
-    check: (old, updated, prop) => old[prop] === updated[prop], // unchanged
-    setValue: (old, updated, prop) => `${prop} : ${old[prop]}`,
+    type: 'modified',
+    check: (old, updated, key) => !(old[key] instanceof Object && updated[key] instanceof Object)
+    && (old[key] !== updated[key]),
+    setValue: (old, updated, key) =>
+      ({ value: { beforeChange: old[key], afterChange: updated[key] } }),
+  },
+  {
+    type: 'unchanged',
+    check: (old, updated, key) => old[key] === updated[key],
+    setValue: (old, updated, key) => ({ value: old[key] }),
   },
 ];
 
-const getContent = pathToFile => fs.readFileSync(pathToFile, 'utf-8');
+const getActions = (a, b, key) =>
+  _.find(actions, ({ check }) => check(a, b, key));
 
+const getAst = (file1, file2) => {
+  const allKeys = _.union(Object.keys(file1), Object.keys(file2));
+  const parseProperty = (element) => {
+    const { type, setValue } = getActions(file1, file2, element);
+    return { type, name: element, ...setValue(file1, file2, element, getAst) };
+  };
+  const AST = allKeys.map(parseProperty);
+  return AST;
+};
 export default (file1, file2) => {
+  const getContent = pathToFile => fs.readFileSync(pathToFile, 'utf-8');
   const format = path.extname(file1);
   const parse = getParser(format);
-  const configOne = parse(getContent(file1));
-  const configTwo = parse(getContent(file2));
-  const allKeys = _.union(Object.keys(configOne), Object.keys(configTwo));
-  const resultMapper = (key) => {
-    const { setValue } = _.find(mapping, ({ check }) => check(configOne, configTwo, key));
-    return setValue(configOne, configTwo, key);
-  };
-  const results = allKeys.map(resultMapper);
-  return `{\n${_.flatten(results).join('\n')}\n}\n`;
+  const old = parse(getContent(file1));
+  const updated = parse(getContent(file2));
+  const diffAst = getAst(old, updated);
+  return `{\n${render(diffAst, 1)}\n}\n`;
 };

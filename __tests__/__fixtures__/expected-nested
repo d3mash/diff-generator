@@ -30,5 +30,6 @@
   + follow: false
   + group3: {
       fee: 100500
+      eef: 005001
     }
 }

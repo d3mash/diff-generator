@@ -5,8 +5,8 @@ const stringifyOptions = [
     check: e => (e instanceof Object && !(e instanceof Array)),
     action: (property, value, l) => {
       const convertObjToString = (obj, spaces) => {
-        const result = Object.keys(obj).map(key => `${key}: ${obj[key]}`).join('\n');
-        return `\n${' '.repeat(spaces * 2)}${result}\n${' '.repeat((spaces * 2) - 2)}}`;
+        const result = Object.keys(obj).map(key => `${' '.repeat(spaces * 2)}${key}: ${obj[key]}`).join('\n');
+        return `\n${result}\n${' '.repeat((spaces * 2) - 2)}}`;
       };
       return `${property}: {${convertObjToString(value, l + 1)}`;
     },

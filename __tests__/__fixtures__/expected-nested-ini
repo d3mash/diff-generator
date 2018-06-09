@@ -1,0 +1,15 @@
+{
+  - owner: {
+      name: John Doe
+    }
+    database: {
+    - server: 192.0.2.62
+    + server: 192.0.2.63
+    - port: 143
+      file: payroll.dat
+    + proxy: 100500: true
+    }
+  + newOwner: {
+      name: John Doe
+    }
+}

@@ -24,4 +24,8 @@ test('nested', () => {
   const expectedYAML = fs.readFileSync('./__tests__/__fixtures__/expected-nested', 'utf8');
   const resultYAML = genDiff('./__tests__/__fixtures__/yaml/nested-old.yml', './__tests__/__fixtures__/yaml/nested-new.yml');
   expect(resultYAML).toEqual(expectedYAML);
+
+  const expectedINI = fs.readFileSync('./__tests__/__fixtures__/expected-nested-ini', 'utf8');
+  const resultINI = genDiff('./__tests__/__fixtures__/ini/nested-old.ini', './__tests__/__fixtures__/ini/nested-new.ini');
+  expect(resultINI).toEqual(expectedINI);
 });

@@ -5,7 +5,7 @@ const stringifyOptions = [
     check: e => (e instanceof Object && !(e instanceof Array)),
     action: (property, value, l) => {
       const convertObjToString = (obj, spaces) => {
-        const result = _.keys(obj).map(key => `${key}: ${obj[key]}`).join('\n');
+        const result = Object.keys(obj).map(key => `${key}: ${obj[key]}`).join('\n');
         return `\n${' '.repeat(spaces * 2)}${result}\n${' '.repeat((spaces * 2) - 2)}}`;
       };
       return `${property}: {${convertObjToString(value, l + 1)}`;

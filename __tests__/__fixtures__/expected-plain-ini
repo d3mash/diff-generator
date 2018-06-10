@@ -1,0 +1,5 @@
+Property 'owner' was removed
+Property 'database.server' was updated. From '192.0.2.62' to '192.0.2.63'
+Property 'database.port' was removed
+Property 'database.proxy: 100500' was added with value: 'true'
+Property 'newOwner' was added with complex value

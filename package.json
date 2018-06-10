@@ -1,6 +1,6 @@
 {
   "name": "diff-generator-dk",
-  "version": "1.3.3",
+  "version": "1.3.4",
   "description": "command line config file generator",
   "main": "index.js",
   "scripts": {

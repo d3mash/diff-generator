@@ -48,11 +48,10 @@ const getAst = (file1, file2) => {
   return AST;
 };
 export default (file1, file2) => {
-  const getContent = pathToFile => fs.readFileSync(pathToFile, 'utf-8');
   const format = path.extname(file1);
   const parse = getParser(format);
-  const old = parse(getContent(file1));
-  const updated = parse(getContent(file2));
+  const old = parse(fs.readFileSync(file1, 'utf-8'));
+  const updated = parse(fs.readFileSync(file2, 'utf-8'));
   const diffAst = getAst(old, updated);
   return `{\n${render(diffAst, 1)}\n}\n`;
 };

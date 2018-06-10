@@ -16,7 +16,7 @@ const stringifyOptions = [
     action: (property, value) => `${property}: ${value}`,
   },
 ];
-const objectStringify = (property, value, l) => {
+const stringify = (property, value, l) => {
   const { action } = _.find(stringifyOptions, ({ check }) => check(value));
   return action(property, value, l);
 };
@@ -26,12 +26,11 @@ const mappers = {
     const a = func(element.children, l + 1);
     return `${' '.repeat((l + 1) * 2)}${element.name}: {\n${a}\n${' '.repeat((l * 2) + 2)}}`;
   },
-  added: (element, l) => `${' '.repeat(l * 2)}+ ${objectStringify(element.name, element.value, l + 1)}`,
-  deleted: (element, l) => `${' '.repeat(l * 2)}- ${objectStringify(element.name, element.value, l + 1)}`,
-  modified: (element, l) => `${' '.repeat(l * 2)}- ${
-    objectStringify(element.name, element.value.beforeChange, l + 1)}\n${' '.repeat(l * 2)}+ ${
-    objectStringify(element.name, element.value.afterChange, l + 1)}`,
-  unchanged: (element, l) => `${' '.repeat(l * 2)}  ${objectStringify(element.name, element.value, l)}`,
+  added: (element, l) => `${' '.repeat(l * 2)}+ ${stringify(element.name, element.value, l + 1)}`,
+  deleted: (element, l) => `${' '.repeat(l * 2)}- ${stringify(element.name, element.value, l + 1)}`,
+  modified: (element, l) => [`${' '.repeat(l * 2)}- ${
+    stringify(element.name, element.value.beforeChange, l + 1)}`, `${' '.repeat(l * 2)}+ ${stringify(element.name, element.value.afterChange, l + 1)}`],
+  unchanged: (element, l) => `${' '.repeat(l * 2)}  ${stringify(element.name, element.value, l)}`,
 };
 
 const render = (ast, l = 2) => {
@@ -40,7 +39,7 @@ const render = (ast, l = 2) => {
     return func(element, l, render);
   };
   const output = ast.map(display);
-  return output.join('\n');
+  return _.flatten(output).join('\n');
 };
 
 export default render;

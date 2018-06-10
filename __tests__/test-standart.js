@@ -43,3 +43,13 @@ test('nested-format-plain', () => {
   const resultINI = genDiff('./__tests__/__fixtures__/ini/nested-old.ini', './__tests__/__fixtures__/ini/nested-new.ini', 'plain');
   expect(resultINI).toEqual(expectedINI);
 });
+
+test('nested-format-json', () => {
+  const expectedJSON = fs.readFileSync('./__tests__/__fixtures__/expected-json-nested', 'utf8');
+  const resultJSON = genDiff('./__tests__/__fixtures__/json/nested-old.json', './__tests__/__fixtures__/json/nested-new.json', 'json');
+  expect(resultJSON).toEqual(expectedJSON);
+
+  const expectedYAML = fs.readFileSync('./__tests__/__fixtures__/expected-json-nested', 'utf8');
+  const resultYAML = genDiff('./__tests__/__fixtures__/yaml/nested-old.yml', './__tests__/__fixtures__/yaml/nested-new.yml', 'json');
+  expect(resultYAML).toEqual(expectedYAML);
+});

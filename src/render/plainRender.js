@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-const propertyActions = [
+const values = [
   {
     check: value => value instanceof Object,
     action: () => 'complex value',
@@ -16,18 +16,18 @@ const propertyActions = [
 ];
 
 const getValue = (value, type) => {
-  const { action } = _.find(propertyActions, ({ check }) => check(value, type));
+  const { action } = _.find(values, ({ check }) => check(value, type));
   return action(value);
 };
 
-const getPath = path => `Property '${path.join('.')}' was`;
+const getFirstPart = path => `Property '${path.join('.')}' was`;
 
-const outputStrings = {
+const strings = {
   nested: (p, path, f) => f(p.children, path),
-  added: (p, path) => `${getPath(path)} added with ${
+  added: (p, path) => `${getFirstPart(path)} added with ${
     getValue(p.value)}`,
-  deleted: (p, path) => `${getPath(path)} removed`,
-  modified: (p, path) => `${getPath(path)} updated. From ${
+  deleted: (p, path) => `${getFirstPart(path)} removed`,
+  modified: (p, path) => `${getFirstPart(path)} updated. From ${
     getValue(p.value.beforeChange, p.type)} to ${
     getValue(p.value.afterChange, p.type)}`,
 };
@@ -36,7 +36,7 @@ const plainRenderer = (ast, path = []) => {
   const unchanged = ast.filter(e => e.type !== 'unchanged');
   const mapper = (p) => {
     const fullPath = [...path, p.name];
-    const getOutputStr = outputStrings[p.type];
+    const getOutputStr = strings[p.type];
     const rendererStr = getOutputStr(p, fullPath, plainRenderer);
     return rendererStr;
   };

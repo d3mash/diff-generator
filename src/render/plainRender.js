@@ -3,21 +3,21 @@ import _ from 'lodash';
 const propertyActions = [
   {
     check: value => value instanceof Object,
-    process: () => 'complex value',
+    action: () => 'complex value',
   },
   {
     check: (value, type) => !(value instanceof Object) && type === 'modified',
-    process: value => `'${value}'`,
+    action: value => `'${value}'`,
   },
   {
     check: value => !(value instanceof Object),
-    process: value => `value: '${value}'`,
+    action: value => `value: '${value}'`,
   },
 ];
 
 const getValue = (value, type) => {
-  const { process } = _.find(propertyActions, ({ check }) => check(value, type));
-  return process(value);
+  const { action } = _.find(propertyActions, ({ check }) => check(value, type));
+  return action(value);
 };
 
 const getPath = path => `Property '${path.join('.')}' was`;

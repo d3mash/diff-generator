@@ -2,36 +2,36 @@ import _ from 'lodash';
 import fs from 'fs';
 import path from 'path';
 import getParser from './parsers';
-import chooseRender from './render/chooseRender';
+import chooseRender from './render';
 
 const actions = [
   {
     type: 'nested',
-    check: (old, updated, key) => !(old[key] instanceof Array && updated[key] instanceof Array) &&
-    (old[key] instanceof Object && updated[key] instanceof Object),
-    setValue: (old, updated, key, f) => ({ children: (f(old[key], updated[key])) }),
+    check: (old, New, key) => !(old[key] instanceof Array && New[key] instanceof Array) &&
+    (old[key] instanceof Object && New[key] instanceof Object),
+    setValue: (old, New, key, f) => ({ children: (f(old[key], New[key])) }),
   },
   {
     type: 'added',
-    check: (old, updated, key) => !_.has(old, key),
-    setValue: (old, updated, key) => ({ value: updated[key] }),
+    check: (old, New, key) => !_.has(old, key),
+    setValue: (old, New, key) => ({ value: New[key] }),
   },
   {
     type: 'deleted',
-    check: (old, updated, key) => !_.has(updated, key),
-    setValue: (old, updated, key) => ({ value: old[key] }),
+    check: (old, New, key) => !_.has(New, key),
+    setValue: (old, New, key) => ({ value: old[key] }),
   },
   {
     type: 'modified',
-    check: (old, updated, key) => !(old[key] instanceof Object && updated[key] instanceof Object)
-    && (old[key] !== updated[key]),
-    setValue: (old, updated, key) =>
-      ({ value: { beforeChange: old[key], afterChange: updated[key] } }),
+    check: (old, New, key) => !(old[key] instanceof Object && New[key] instanceof Object)
+    && (old[key] !== New[key]),
+    setValue: (old, New, key) =>
+      ({ value: { beforeChange: old[key], afterChange: New[key] } }),
   },
   {
     type: 'unchanged',
-    check: (old, updated, key) => old[key] === updated[key],
-    setValue: (old, updated, key) => ({ value: old[key] }),
+    check: (old, New, key) => old[key] === New[key],
+    setValue: (old, New, key) => ({ value: old[key] }),
   },
 ];
 
@@ -51,8 +51,8 @@ export default (file1, file2, format = 'default') => {
   const fileFormat = path.extname(file1);
   const parse = getParser(fileFormat);
   const old = parse(fs.readFileSync(file1, 'utf-8'));
-  const updated = parse(fs.readFileSync(file2, 'utf-8'));
-  const diffAst = getAst(old, updated);
+  const New = parse(fs.readFileSync(file2, 'utf-8'));
+  const diffAst = getAst(old, New);
   const render = chooseRender(format);
   return render(diffAst);
 };

@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-const values = [
+const getChangeOptions = [
   {
     check: value => value instanceof Object,
     action: () => 'complex value',
@@ -15,21 +15,21 @@ const values = [
   },
 ];
 
-const getValue = (value, type) => {
-  const { action } = _.find(values, ({ check }) => check(value, type));
+const getChange = (value, type) => {
+  const { action } = _.find(getChangeOptions, ({ check }) => check(value, type));
   return action(value);
 };
 
-const getFirstPart = path => `Property '${path.join('.')}' was`;
+const getKey = path => `Property '${path.join('.')}' was`;
 
 const strings = {
   nested: (p, path, f) => f(p.children, path),
-  added: (p, path) => `${getFirstPart(path)} added with ${
-    getValue(p.value)}`,
-  deleted: (p, path) => `${getFirstPart(path)} removed`,
-  modified: (p, path) => `${getFirstPart(path)} updated. From ${
-    getValue(p.value.beforeChange, p.type)} to ${
-    getValue(p.value.afterChange, p.type)}`,
+  added: (p, path) => `${getKey(path)} added with ${
+    getChange(p.value)}`,
+  deleted: (p, path) => `${getKey(path)} removed`,
+  modified: (p, path) => `${getKey(path)} updated. From ${
+    getChange(p.value.beforeChange, p.type)} to ${
+    getChange(p.value.afterChange, p.type)}`,
 };
 
 const plainRenderer = (ast, path = []) => {

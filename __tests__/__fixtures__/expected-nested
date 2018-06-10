@@ -1,35 +1,35 @@
 {
-    common: {
-      setting1: Value 1
-    - setting2: 200
-    - setting3: true
-    + setting3: {
-        key: value
+      common: {
+        setting1: Value 1
+      - setting2: 200
+      - setting3: true
+      + setting3: {
+          key: value
+        }
+        setting6: {
+          key: value
+        + ops: vops
+        }
+      + setting4: blah blah
+      + setting5: {
+          key5: value5
+        }
       }
-      setting6: {
-        key: value
-      + ops: vops
+      group1: {
+      - baz: bas
+      + baz: bars
+        foo: bar
+      - nest: {
+          key: value
+        }
+      + nest: str
       }
-    + setting4: blah blah
-    + setting5: {
-        key5: value5
+    - group2: {
+        abc: 12345
       }
-    }
-    group1: {
-    - baz: bas
-    + baz: bars
-      foo: bar
-    - nest: {
-        key: value
+    + follow: false
+    + group3: {
+        fee: 100500
+        eef: 005001
       }
-    + nest: str
-    }
-  - group2: {
-      abc: 12345
-    }
-  + follow: false
-  + group3: {
-      fee: 100500
-      eef: 005001
-    }
 }

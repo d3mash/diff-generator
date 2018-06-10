@@ -33,13 +33,17 @@ const mappers = {
   unchanged: (element, l) => `${' '.repeat(l * 2)}  ${stringify(element.name, element.value, l)}`,
 };
 
-const render = (ast, l = 2) => {
+const renderElement = (ast, l) => {
   const display = (element) => {
     const func = mappers[element.type];
-    return func(element, l, render);
+    return func(element, l, renderElement);
   };
   const output = ast.map(display);
-  return _.flatten(output).join('\n');
+  const flattened = _.flatten(output).join('\n');
+  return flattened;
 };
-
-export default render;
+const getStandartRender = (ast, level = 2) => {
+  const result = renderElement(ast, level);
+  return `{\n${result}\n}\n`;
+};
+export default getStandartRender;

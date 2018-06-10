@@ -2,7 +2,7 @@ import _ from 'lodash';
 import fs from 'fs';
 import path from 'path';
 import getParser from './parsers';
-import render from './render';
+import chooseRender from './render/chooseRender';
 
 const actions = [
   {
@@ -47,11 +47,12 @@ const getAst = (file1, file2) => {
   const AST = allKeys.map(parseProperty);
   return AST;
 };
-export default (file1, file2) => {
-  const format = path.extname(file1);
-  const parse = getParser(format);
+export default (file1, file2, format = 'default') => {
+  const fileFormat = path.extname(file1);
+  const parse = getParser(fileFormat);
   const old = parse(fs.readFileSync(file1, 'utf-8'));
   const updated = parse(fs.readFileSync(file2, 'utf-8'));
   const diffAst = getAst(old, updated);
-  return `{\n${render(diffAst, 1)}\n}\n`;
+  const render = chooseRender(format);
+  return render(diffAst, 1);
 };

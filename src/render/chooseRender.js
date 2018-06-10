@@ -1,17 +1,14 @@
 import getStandartRender from './standartRender';
-// import getPlainRenderer from './plainRender';
-// import getJsonRenderer from './jsonRender';
+import getPlainRender from './plainRender';
+import getJsonRender from './jsonRender';
 
 const renderers = {
   default: getStandartRender,
-  // plain: getPlainRenderer,
-  // json: getJsonRenderer,
+  plain: getPlainRender,
+  json: getJsonRender,
 };
 
 export default format => (data) => {
   const render = renderers[format];
-  if (!render) {
-    throw new Error('unkown format');
-  }
   return render(data);
 };

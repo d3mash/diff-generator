@@ -54,5 +54,5 @@ export default (file1, file2, format = 'default') => {
   const updated = parse(fs.readFileSync(file2, 'utf-8'));
   const diffAst = getAst(old, updated);
   const render = chooseRender(format);
-  return render(diffAst, 1);
+  return render(diffAst);
 };

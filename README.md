@@ -8,7 +8,7 @@ This command-line utility is designed to display differences between config file
 ## Install
 `npm install diff-generator-dk`
 ## Run
-`gendiff <file1> <file2> --f <format>`
+`gendiff <file1> <file2> --format <format>`
 Format options are 'default', 'plain', and 'json'
 ## Help
 `gendiff -h`

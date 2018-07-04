@@ -28,8 +28,8 @@ const strings = {
     getChange(p.value)}`,
   deleted: (p, path) => `${getKey(path)} removed`,
   modified: (p, path) => `${getKey(path)} updated. From ${
-    getChange(p.value.beforeChange, p.type)} to ${
-    getChange(p.value.afterChange, p.type)}`,
+    getChange(p.value.old, p.type)} to ${
+    getChange(p.value.new, p.type)}`,
 };
 
 const plainRenderer = (ast, path = []) => {

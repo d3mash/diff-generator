@@ -29,7 +29,7 @@ const mappers = {
   added: (element, l) => `${' '.repeat(l * 2)}+ ${stringify(element.name, element.value, l + 1)}`,
   deleted: (element, l) => `${' '.repeat(l * 2)}- ${stringify(element.name, element.value, l + 1)}`,
   modified: (element, l) => [`${' '.repeat(l * 2)}- ${
-    stringify(element.name, element.value.beforeChange, l + 1)}`, `${' '.repeat(l * 2)}+ ${stringify(element.name, element.value.afterChange, l + 1)}`],
+    stringify(element.name, element.value.old, l + 1)}`, `${' '.repeat(l * 2)}+ ${stringify(element.name, element.value.new, l + 1)}`],
   unchanged: (element, l) => `${' '.repeat(l * 2)}  ${stringify(element.name, element.value, l)}`,
 };
 

@@ -8,53 +8,53 @@ const actions = [
   {
     type: 'nested',
     check:
-      (before, updated, key) => !(before[key] instanceof Array && updated[key] instanceof Array) &&
-      (before[key] instanceof Object && updated[key] instanceof Object),
-    action: (before, updated, key, f) => ({ children: (f(before[key], updated[key])) }),
+      (before, after, key) => !(before[key] instanceof Array && after[key] instanceof Array) &&
+      (before[key] instanceof Object && after[key] instanceof Object),
+    action: (before, after, key, f) => ({ children: (f(before[key], after[key])) }),
   },
   {
     type: 'added',
-    check: (before, updated, key) => !_.has(before, key),
-    action: (before, updated, key) => ({ value: updated[key] }),
+    check: (before, after, key) => !_.has(before, key),
+    action: (before, after, key) => ({ value: after[key] }),
   },
   {
     type: 'deleted',
-    check: (before, updated, key) => !_.has(updated, key),
-    action: (before, updated, key) => ({ value: before[key] }),
+    check: (before, after, key) => !_.has(after, key),
+    action: (before, after, key) => ({ value: before[key] }),
   },
   {
     type: 'modified',
-    check: (before, updated, key) =>
-      !(before[key] instanceof Object && updated[key] instanceof Object)
-      && (before[key] !== updated[key]),
-    action: (before, updated, key) =>
-      ({ value: { beforeChange: before[key], afterChange: updated[key] } }),
+    check: (before, after, key) =>
+      !(before[key] instanceof Object && after[key] instanceof Object)
+      && (before[key] !== after[key]),
+    action: (before, after, key) =>
+      ({ value: { old: before[key], new: after[key] } }),
   },
   {
     type: 'unchanged',
-    check: (before, updated, key) => before[key] === updated[key],
-    action: (before, updated, key) => ({ value: before[key] }),
+    check: (before, after, key) => before[key] === after[key],
+    action: (before, after, key) => ({ value: before[key] }),
   },
 ];
 
-const getActions = (a, b, key) =>
-  _.find(actions, ({ check }) => check(a, b, key));
+const getActions = (before, after, property) =>
+  _.find(actions, ({ check }) => check(before, after, property));
 
-const getAst = (file1, file2) => {
-  const allKeys = _.union(Object.keys(file1), Object.keys(file2));
-  const parseProperty = (element) => {
-    const { type, action } = getActions(file1, file2, element);
-    return { type, name: element, ...action(file1, file2, element, getAst) };
+const getAst = (before, after) => {
+  const allProps = _.union(Object.keys(before), Object.keys(after));
+  const parseProperty = (property) => {
+    const { type, action } = getActions(before, after, property);
+    return { type, name: property, ...action(before, after, property, getAst) };
   };
-  const AST = allKeys.map(parseProperty);
-  return AST;
+  const ast = allProps.map(parseProperty);
+  return ast;
 };
-export default (file1, file2, format = 'default') => {
-  const fileFormat = path.extname(file1);
+export default (path1, path2, format = 'default') => {
+  const fileFormat = path.extname(path1);
   const parse = getParser(fileFormat);
-  const before = parse(fs.readFileSync(file1, 'utf-8'));
-  const after = parse(fs.readFileSync(file2, 'utf-8'));
-  const diffAst = getAst(before, after);
+  const oldConfig = parse(fs.readFileSync(path1, 'utf-8'));
+  const newConfig = parse(fs.readFileSync(path2, 'utf-8'));
+  const diff = getAst(oldConfig, newConfig);
   const render = chooseRender(format);
-  return render(diffAst);
+  return render(diff);
 };

@@ -17,8 +17,8 @@
         "type": "modified",
         "name": "setting3",
         "value": {
-          "beforeChange": true,
-          "afterChange": {
+          "old": true,
+          "new": {
             "key": "value"
           }
         }
@@ -61,8 +61,8 @@
         "type": "modified",
         "name": "baz",
         "value": {
-          "beforeChange": "bas",
-          "afterChange": "bars"
+          "old": "bas",
+          "new": "bars"
         }
       },
       {
@@ -74,10 +74,10 @@
         "type": "modified",
         "name": "nest",
         "value": {
-          "beforeChange": {
+          "old": {
             "key": "value"
           },
-          "afterChange": "str"
+          "new": "str"
         }
       }
     ]

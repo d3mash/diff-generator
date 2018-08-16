@@ -40,11 +40,11 @@ const actions = [
 const getActions = (before, after, property) =>
   _.find(actions, ({ check }) => check(before, after, property));
 
-const getAst = (before, after) => {
+const parseData = (before, after) => {
   const allProps = _.union(Object.keys(before), Object.keys(after));
   const parseProperty = (property) => {
     const { type, action } = getActions(before, after, property);
-    return { type, name: property, ...action(before, after, property, getAst) };
+    return { type, name: property, ...action(before, after, property, parseData) };
   };
   const ast = allProps.map(parseProperty);
   return ast;
@@ -54,7 +54,7 @@ export default (path1, path2, format = 'default') => {
   const parse = getParser(fileFormat);
   const oldConfig = parse(fs.readFileSync(path1, 'utf-8'));
   const newConfig = parse(fs.readFileSync(path2, 'utf-8'));
-  const diff = getAst(oldConfig, newConfig);
+  const diff = parseData(oldConfig, newConfig);
   const render = chooseRender(format);
   return render(diff);
 };

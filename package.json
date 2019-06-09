@@ -31,12 +31,12 @@
     "lodash": "^4.17.11"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.4.5",
+    "@babel/preset-flow": "^7.0.0",
     "babel-cli": "*",
     "babel-core": "*",
     "babel-eslint": "^8.2.6",
     "babel-plugin-transform-runtime": "*",
-    "babel-preset-env": "*",
-    "babel-preset-flow": "*",
     "babel-preset-stage-0": "*",
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^12.1.0",
